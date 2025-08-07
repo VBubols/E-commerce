@@ -33,6 +33,52 @@ if(localStorage.totCompArr){
     totalCompra = JSON.parse(localStorage.getItem('totCompArr'))
 }
 
+function getDados(){
+    if(localStorage.qtdArr){
+        qtd = JSON.parse(localStorage.getItem('qtdArr'))
+    }
+    //qtd.push(0)
+    localStorage.qtdArr = JSON.stringify(qtd)
+    if(localStorage.totCompArr){
+        totalCompra = JSON.parse(localStorage.getItem('totCompArr'))
+    }
+    //totalCompra.push(0)
+    localStorage.totCompArr = JSON.stringify(totalCompra)
+    if(localStorage.prodArr){
+        produto = JSON.parse(localStorage.getItem('prodArr'))
+    }
+    let prod = document.getElementById('produto').value
+    produto.push(prod)
+    localStorage.prodArr = JSON.stringify(produto)
+    document.getElementById('produto').value = ''
+
+
+    if(localStorage.descArr){
+        descricao = JSON.parse(localStorage.getItem('descArr'))
+    }
+    let descri = document.getElementById('descricao').value
+    descricao.push(descri)
+    localStorage.descArr = JSON.stringify(descricao)
+    document.getElementById('descricao').value = ''
+
+
+    if(localStorage.codArr){
+        cod = JSON.parse(localStorage.getItem('codArr'))
+    }
+    let codig = document.getElementById('codigo').value
+    cod.push(codig)
+    localStorage.codArr = JSON.stringify(cod)
+    document.getElementById('codigo').value = ''
+    if(localStorage.precoArr){
+        preco = JSON.parse(localStorage.getItem('precoArr'))
+    }
+    let prec = document.getElementById('preco').value
+    preco.push(parseFloat(prec.replace(',' , '.')))
+    localStorage.precoArr = JSON.stringify(preco)
+    document.getElementById('preco').value = ''
+    alert("Dados inseridos com Sucesso!")
+}
+
 function montaHTML(){
     main = document.createElement('main')
     main.setAttribute('class', 'container')
@@ -193,8 +239,72 @@ function calculaCesta(){
         if(totalGeral > 0){
             alert(`${textoCarrinho} 
                 =================================
-                Total da compra       R$ ${totalGeral.toFixed(2).replace('.', ',')}
-                `)
+                Total da compra       R$ ${totalGeral.toFixed(2).replace('.', ',')}`)
+                let text = "Confirme ou continue sua compra.\nPressione OK para finalizar ou Cancelar para escolher mais produtos."
+                if(confirm(text)){
+                    alert("Compra efetuada com sucesso!")
+                    for(i in qtd){
+                        qtd[i] = 0
+                    }
+                    localStorage.qtdArr = JSON.stringify(qtd)
+                    window.location.reload()
+                } else{
+                    alert("Continue comprando!")
+                    totalGeral = 0
+                }
+        } else{
+            alert("Seu carrinho está vazio!")
         }
+    } else{
+        alert("Você não está logado!")
+    }
+}
+
+function carregaProduto(){
+    let produtoCompra = localStorage.getItem('produtoIndividual')
+    let descCompra = localStorage.getItem('descricaoIndividual')
+    let pos = produto.indexOf(produtoCompra)
+    document.getElementById('tituloProduto').innerHTML = produtoCompra
+    document.getElementById('descProduto').innerHTML = descCompra
+    document.getElementById('imgProd').style.backgroundImage = 'url(imagens/img' + pos + '.jpg)'
+
+    div2 = document.createElement('div')
+    div2.setAttribute('class', 'card')
+    div2.setAttribute('id', 'divProd')
+    article.body.append(div2)
+
+    p1 = document.createElement('p')
+    p1.innerHTML = 'Qtd: '
+    div2.append(p1)
+
+    input = document.createElement('input')
+    input.setAttribute('type', 'Number')
+    input.setAttribute('value', '1')
+    input.setAttribute('min', '1')
+    input.setAttribute('max', '10')
+    input.setAttribute('id', 'qtd-' + i)
+    p1.append(input)
+
+    p2 = document.createElement('p')
+    p2.innerHTML = 'R$ '
+    span = document.createElement('span')
+    span.setAttribute('id', cod[pos])
+    span.setAttribute('class', 'bold')
+    span.innerHTML = preco[pos].toFixed(2).replace('.', ',')
+    p2.append(span)
+    div2.append(p2)
+
+    aLink = document.createElement('a')
+    aLink.setAttribute('onclick', 'compra(' + "'" + 'qtd-' + pos + "'" + ',' + "'" + cod[pos] + "'" + ',' + pos + ")")
+    aLink.setAttribute('class', 'btn')
+    aLink.setAttribute('href', '#')
+    aLink.innerHTML = 'Comprar'
+    div2.append(aLink)
+
+    let logB = localStorage.getItem('loginAutenticado')
+    if(logB == 'null' || logB == 'undefined'){
+        document.getElementById('log').innerHTML = 'login'
+    } else{
+        document.getElementById('log').innerHTML = `Bem-vindo, ${localStorage.getItem('loginAutenticado')}`
     }
 }
