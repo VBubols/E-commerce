@@ -226,7 +226,7 @@ function compra(qtdId, produt, posArr){
 }
 
 function calculaCesta(){
-    usr = JSON.parse(localStorage.getItem('usrARR'))
+    usr = JSON.parse(localStorage.getItem('usrArr'))
     loginAut = localStorage.getItem('loginAutenticado')
     if(usr.includes(loginAut)){
         let textoCarrinho = ''
@@ -262,7 +262,7 @@ function calculaCesta(){
 
 function carregaProduto(){
     let produtoCompra = localStorage.getItem('produtoIndividual')
-    let descCompra = localStorage.getItem('descricaoIndividual')
+    let descCompra = localStorage.getItem('descArr')
     let pos = produto.indexOf(produtoCompra)
     document.getElementById('tituloProduto').innerHTML = produtoCompra
     document.getElementById('descProduto').innerHTML = descCompra
@@ -271,7 +271,7 @@ function carregaProduto(){
     div2 = document.createElement('div')
     div2.setAttribute('class', 'card')
     div2.setAttribute('id', 'divProd')
-    article.body.append(div2)
+    document.body.append(div2)
 
     p1 = document.createElement('p')
     p1.innerHTML = 'Qtd: '
@@ -282,7 +282,7 @@ function carregaProduto(){
     input.setAttribute('value', '1')
     input.setAttribute('min', '1')
     input.setAttribute('max', '10')
-    input.setAttribute('id', 'qtd-' + i)
+    input.setAttribute('id', 'qtd-' + pos)
     p1.append(input)
 
     p2 = document.createElement('p')
@@ -307,4 +307,10 @@ function carregaProduto(){
     } else{
         document.getElementById('log').innerHTML = `Bem-vindo, ${localStorage.getItem('loginAutenticado')}`
     }
+}
+
+function abrelink(i) {
+    localStorage.setItem('produtoIndividual', produto[i]);
+    localStorage.setItem('descricaoIndividual', descricao[i]);
+    window.location.href = 'produto.html';
 }

@@ -8,6 +8,8 @@
 #hcont{
     display: flex;
     flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
 }
 
 header{
@@ -60,7 +62,7 @@ h1{
 
 #log{
     display: block;
-    width: 25px;
+    width: 25%;
     color: #fff;
     padding: 0px;
     border: none;
@@ -69,12 +71,11 @@ h1{
     background-color: transparent;
     transition: 0.5s;
     margin-left: 0%;
-    margin-top: 40px;
 }
 
 #clog{
     display: block;
-    width: 5%;
+    width: 25%;
     color: #fff;
     padding: 0px;
     border: none;
@@ -148,8 +149,10 @@ h3{
     height: 68px;
 }
 
-#tituloProd{
-    padding-top: 120px;
+#tituloProduto{
+    padding-top: 100px;
+    padding-bottom: 0px;
+    text-align: center;
     color: #070347;
 }
 
